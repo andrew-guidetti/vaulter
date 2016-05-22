@@ -1,3 +1,3 @@
 # vaulter
 
-Dockerfile and bash script for a container that will access hasicorp's Vault via HTTP API and send it three secrets.
+Dockerfile and bash script for a container that will use hasicorp's Vault via HTTP API to send it three secrets.
