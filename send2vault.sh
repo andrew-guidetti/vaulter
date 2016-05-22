@@ -1,11 +1,10 @@
 #!/bin/bash
 #Written by Andrew Guidetti
 
-VAULT_IP="45.55.163.231:8200"
+VAULT_IP="IP.AND.PORT.FOR.VAULT"
 APP_ID="722d6410-cda6-4d47-bbfb-4d9103368bf0"
-#USER_ID="065a2a45-a169-4fcd-b34d-9d44f7c3f331" #<-- Use this key for demo
+#USER_ID="00000000-0000-0000-0000-00000000000"
 #the user_id and app_id should never be hardcoded together in production!
-
 
 function connect2Vault {
 
@@ -32,8 +31,8 @@ function connect2Vault {
 		-d '{"app_id":"'"$APP_ID"'", "user_id":"'"$USER_ID"'"}' \
 		"http://"$VAULT_IP"/v1/auth/app-id/login"`		
 
-    VAULT_TOKEN=`echo "$JSONTOKEN" | sed -e 's/^.*"client_token"[ ]*:[ ]*"//' -e 's/".*//'`
-    export VAULT_TOKEN
+    	VAULT_TOKEN=`echo "$JSONTOKEN" | sed -e 's/^.*"client_token"[ ]*:[ ]*"//' -e 's/".*//'`
+    	export VAULT_TOKEN
 
 	#check if the key is long enough
 	if [ ${#VAULT_TOKEN} -ge 2 ]; 
@@ -49,7 +48,6 @@ function connect2Vault {
 	fi
 menu
 }
-
 
 function create3Passwords {
 	echo -e "\nHere are three new passwords:\n"
@@ -84,15 +82,15 @@ function sendPasswords {
 	echo "Password2 = $PASSWORD2"
 	curl \
    	    -X POST \
-		-H "X-Vault-Token:$VAULT_TOKEN" \
-		-H 'Content-type: application/json' \
-		-d '{"Password2":"'"$PASSWORD2"'"}' \
+   	    -H "X-Vault-Token:$VAULT_TOKEN" \
+   	    -H 'Content-type: application/json' \
+   	    -d '{"Password2":"'"$PASSWORD2"'"}' \
    	     http://"$VAULT_IP"/v1/secret/password2
 
 	echo "Password3 = $PASSWORD3"
 	curl \
-		-X POST \
-		-H "X-Vault-Token:$VAULT_TOKEN" \
+	    -X POST \
+	    -H "X-Vault-Token:$VAULT_TOKEN" \
    	    -H 'Content-type: application/json' \
    	    -d '{"Password3":"'"$PASSWORD3"'"}' \
    	     http://"$VAULT_IP"/v1/secret/password3
